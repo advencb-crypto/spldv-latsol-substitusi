@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Interaktif SPLDV: Metode Substitusi (Kelas 8)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        },
+                        secondary: {
+                            50: '#f0fdf4',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .math-box {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .fade-in {
+            animation: fadeIn 0.35s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- CONFIGURASI GOOGLE FORM (Mudah disesuaikan oleh Guru) -->
+    <script>
+        const CONFIG = {
+            // Link Google Form Asli (Viewform)
+            GFORM_VIEW_URL: "https://docs.google.com/forms/d/e/1FAIpQLScEYQ2PyqnYrA8Cuit7I1FTYyJA9T4uFwdtzjs8XSiWM3gPgA/viewform?usp=dialog",
+            // Endpoint FormResponse untuk pengiriman data latar belakang (silent POST)
+            GFORM_ACTION_URL: "https://docs.google.com/forms/d/e/1FAIpQLScEYQ2PyqnYrA8Cuit7I1FTYyJA9T4uFwdtzjs8XSiWM3gPgA/formResponse",
+            // KKM Penilaian
+            KKM: 75,
+            // Entry ID Default (Dapat diubah melalui menu Pengaturan Guru di aplikasi atau langsung di sini)
+            ENTRY_IDS: {
+                nama: "entry.1000001",     // Ganti dengan entry ID field Nama Siswa di GForm Anda
+                kelas: "entry.1000002",    // Ganti dengan entry ID field Kelas di GForm Anda
+                absen: "entry.1000003",    // Ganti dengan entry ID field Nomor Absen di GForm Anda
+                skor: "entry.1000004",     // Ganti dengan entry ID field Skor Akhir di GForm Anda
+                jawaban: "entry.1000005"   // Ganti dengan entry ID field Detail Jawaban di GForm Anda
+            }
+        };
+    </script>
+
+    <!-- NAVBAR / HEADER -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-calculator text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-display font-bold text-base sm:text-lg text-slate-900 leading-tight">Matematika Kelas 8</h1>
+                    <p class="text-xs text-slate-500 font-medium">SPLDV • Metode Substitusi</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <a href="#materi" class="px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition">Materi & Simulasi</a>
+                <a href="#latihan" class="px-3 py-1.5 text-xs sm:text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition">Latihan Soal</a>
+                <button onclick="toggleTeacherModal()" title="Pengaturan Integrasi Google Form (Khusus Guru)" class="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION & IDENTITAS SISWA -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-10">
+
+        <!-- Banner Sambutan -->
+        <section class="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 rounded-2xl p-6 sm:p-8 text-white shadow-lg relative overflow-hidden">
+            <div class="relative z-10 max-w-2xl space-y-3">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-xs font-semibold tracking-wide backdrop-blur-sm">
+                    <i class="fa-solid fa-sparkles text-amber-300"></i> Modul Pembelajaran Interaktif
+                </span>
+                <h2 class="font-display text-2xl sm:text-3xl font-extrabold leading-snug">
+                    Menguasai Metode Substitusi pada SPLDV
+                </h2>
+                <p class="text-blue-100 text-sm sm:text-base leading-relaxed">
+                    Pelajari cara mengubah masalah sehari-hari menjadi model matematika dan menyelesaikannya langkah demi langkah dengan teknik mengganti (substitusi) variabel.
+                </p>
+            </div>
+            <!-- Dekorasi Latar -->
+            <div class="hidden md:flex absolute right-8 bottom-4 opacity-15 text-8xl font-display font-black select-none">
+                x + y
+            </div>
+        </section>
+
+        <!-- Kartu Identitas Siswa -->
+        <section id="identitas" class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </span>
+                    <div>
+                        <h3 class="font-display font-bold text-lg text-slate-900">Data Identitas Siswa</h3>
+                        <p class="text-xs text-slate-500">Wajib diisi sebelum mengirimkan hasil latihan ke Google Form</p>
+                    </div>
+                </div>
+                <span id="statusIdentitasBadge" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
+                    Belum Lengkap
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                    <label for="inputNama" class="block text-xs font-semibold text-slate-700 mb-1.5">Nama Lengkap <span class="text-red-500">*</span></label>
+                    <input type="text" id="inputNama" oninput="checkIdentity()" placeholder="Contoh: Ahmad Fauzi" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                </div>
+                <div>
+                    <label for="inputKelas" class="block text-xs font-semibold text-slate-700 mb-1.5">Kelas <span class="text-red-500">*</span></label>
+                    <select id="inputKelas" onchange="checkIdentity()" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                        <option value="">-- Pilih Kelas --</option>
+                        <option value="8B">Kelas 8B</option>
+                        <option value="8D">Kelas 8D</option>
+                        <option value="8E">Kelas 8E</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="inputAbsen" class="block text-xs font-semibold text-slate-700 mb-1.5">Nomor Absen <span class="text-red-500">*</span></label>
+                    <input type="number" id="inputAbsen" min="1" max="45" oninput="checkIdentity()" placeholder="Contoh: 12" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                </div>
+            </div>
+        </section>
+
+        <!-- BAGIAN 1: MATERI & SIMULASI INTERAKTIF -->
+        <section id="materi" class="space-y-6">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold shadow-sm">1</div>
+                <div>
+                    <h3 class="font-display font-bold text-xl text-slate-900">Konsep & Simulasi Metode Substitusi</h3>
+                    <p class="text-sm text-slate-500">Pahami alur berpikirnya sebelum mengerjakan latihan</p>
+                </div>
+            </div>
+
+            <!-- Kartu Penjelasan Singkat -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold mb-3">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">Apa itu Substitusi?</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        <strong>Substitusi</strong> artinya <em>mengganti</em>. Kita menyatakan satu variabel dalam bentuk variabel lainnya, lalu memasukkannya ke persamaan kedua agar menjadi satu variabel saja.
+                    </p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold mb-3">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">Kunci Memilih Persamaan</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Cari persamaan yang memiliki variabel berkoefisien <strong>1</strong> (misalnya <code class="bg-slate-100 px-1 rounded">x + 4y = 12.000</code>), karena paling mudah diubah menjadi <code class="bg-slate-100 px-1 rounded">x = ...</code> tanpa pecahan!
+                    </p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold mb-3">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">4 Langkah Utama</h4>
+                    <ol class="text-xs text-slate-600 space-y-1 list-decimal list-inside">
+                        <li>Buat pemisalan & model SPLDV</li>
+                        <li>Ubah 1 persamaan jadi <code class="bg-slate-100 px-1 rounded">x = ...</code> atau <code class="bg-slate-100 px-1 rounded">y = ...</code></li>
+                        <li>Substitusikan ke persamaan lainnya</li>
+                        <li>Hitung nilai kedua variabel</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- SIMULASI STEP-BY-STEP INTERAKTIF -->
+            <div class="bg-white rounded-2xl border border-indigo-200 shadow-md overflow-hidden">
+                <div class="bg-indigo-50/80 px-6 py-4 border-b border-indigo-100 flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-1 rounded-md bg-indigo-600 text-white text-xs font-bold">SIMULASI INTERAKTIF</span>
+                        <h4 class="font-display font-bold text-slate-900 text-sm sm:text-base">Studi Kasus: Jajan di Kantin Sekolah</h4>
+                    </div>
+                    <span id="simStepBadge" class="text-xs font-semibold text-indigo-700 bg-white px-3 py-1 rounded-full border border-indigo-200">
+                        Langkah 1 dari 5
+                    </span>
+                </div>
+
+                <div class="p-6 space-y-5">
+                    <!-- Soal Studi Kasus -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-sm text-slate-700">
+                        <p class="font-semibold text-slate-900 mb-1"><i class="fa-solid fa-store text-indigo-600 mr-1.5"></i>Cerita Masalah:</p>
+                        <p>Andi membeli <strong>2 roti</strong> dan <strong>1 susu kotak</strong> seharga <strong>Rp11.000</strong>. Di kantin yang sama, Bella membeli <strong>1 roti</strong> dan <strong>3 susu kotak</strong> seharga <strong>Rp13.000</strong>. Berapa harga 1 roti dan 1 susu kotak?</p>
+                    </div>
+
+                    <!-- Area Langkah Dinamis -->
+                    <div id="simContentArea" class="min-h-[180px] bg-gradient-to-br from-white to-blue-50/40 rounded-xl border border-blue-100 p-5 flex flex-col justify-center fade-in">
+                        <!-- Konten diisi oleh JavaScript -->
+                    </div>
+
+                    <!-- Progress Bar Simulasi -->
+                    <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                        <div id="simProgressBar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 20%;"></div>
+                    </div>
+
+                    <!-- Kontrol Navigasi Simulasi -->
+                    <div class="flex items-center justify-between pt-2">
+                        <button id="btnSimPrev" onclick="changeSimStep(-1)" disabled class="px-4 py-2 rounded-xl border border-slate-300 text-slate-600 text-sm font-semibold hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <button onclick="resetSim()" class="text-xs font-medium text-slate-500 hover:text-indigo-600 underline">
+                            Ulangi dari Awal
+                        </button>
+                        <button id="btnSimNext" onclick="changeSimStep(1)" class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 shadow-sm transition flex items-center gap-2">
+                            Langkah Berikutnya <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BAGIAN 2: LATIHAN SOAL BERJENJANG (9 SOAL) -->
+        <section id="latihan" class="space-y-6 pt-4">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm">2</div>
+                    <div>
+                        <h3 class="font-display font-bold text-xl text-slate-900">Latihan Soal Berjenjang (9 Nomor)</h3>
+                        <p class="text-sm text-slate-500">Setiap konteks dibagi menjadi tahap Pemodelan, Substitusi, dan Penyelesaian Akhir</p>
+                    </div>
+                </div>
+                <div class="bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm flex items-center gap-3">
+                    <span class="text-xs font-medium text-slate-500">Terjawab:</span>
+                    <span id="answeredCounter" class="font-display font-bold text-sm text-blue-600">0 / 9 Soal</span>
+                </div>
+            </div>
+
+            <!-- Container Semua Konteks & Soal (Di-render via JS) -->
+            <div id="quizContainer" class="space-y-8"></div>
+
+            <!-- Tombol Selesai & Kirim Jawaban -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-md text-center space-y-4">
+                <h4 class="font-display font-bold text-lg text-slate-900">Sudah Selesai Mengerjakan Semua Soal?</h4>
+                <p class="text-sm text-slate-600 max-w-xl mx-auto">
+                    Pastikan <strong>Nama Lengkap, Kelas, dan Nomor Absen</strong> sudah diisi di bagian atas, lalu klik tombol di bawah untuk melihat nilai, pembahasan lengkap, dan menyimpan jawaban ke Google Form.
+                </p>
+                <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+                    <button onclick="submitQuiz()" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-sm sm:text-base shadow-lg hover:shadow-xl transition flex items-center gap-2.5">
+                        <i class="fa-solid fa-paper-plane"></i> Cek Nilai & Simpan ke Google Form
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- BAGIAN 3: HASIL SKOR, STATUS PENGIRIMAN GFORM & PEMBAHASAN -->
+        <section id="resultSection" class="hidden space-y-6 fade-in">
+            <div class="bg-white rounded-2xl border-2 border-blue-500 p-6 sm:p-8 shadow-xl space-y-6">
+                <!-- Header Hasil -->
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-6 pb-6 border-b border-slate-200">
+                    <div class="text-center sm:text-left space-y-1">
+                        <span id="resultBadgeStatus" class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800">
+                            Lulus KKM (≥ 75)
+                        </span>
+                        <h3 class="font-display text-2xl font-extrabold text-slate-900" id="resultStudentName">Nama Siswa</h3>
+                        <p class="text-sm text-slate-500" id="resultStudentMeta">Kelas 8B • No. Absen 12</p>
+                    </div>
+
+                    <div class="flex items-center gap-4 bg-slate-50 px-6 py-4 rounded-2xl border border-slate-200">
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-slate-500 uppercase">Skor Akhir</p>
+                            <p id="resultScoreText" class="font-display text-4xl font-black text-blue-600">100</p>
+                        </div>
+                        <div class="h-10 w-px bg-slate-200"></div>
+                        <div class="text-xs space-y-1 text-slate-600">
+                            <p><i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> Benar: <strong id="resultCorrectCount">9</strong></p>
+                            <p><i class="fa-solid fa-circle-xmark text-rose-500 mr-1"></i> Salah: <strong id="resultWrongCount">0</strong></p>
+                            <p><i class="fa-solid fa-flag-checkered text-indigo-500 mr-1"></i> KKM: <strong>75</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Pengiriman Google Form -->
+                <div id="gformStatusBox" class="rounded-xl p-5 border bg-blue-50/70 border-blue-200 space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div id="gformStatusIcon" class="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <div class="space-y-1 flex-1">
+                            <h4 id="gformStatusTitle" class="font-bold text-slate-900 text-sm sm:text-base">Mengirim Jawaban ke Google Form...</h4>
+                            <p id="gformStatusDesc" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Sistem sedang mengirimkan data identitas, skor, dan rincian jawaban Anda ke Google Form guru.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Opsi Cadangan / Verifikasi Manual ke Google Form Asli -->
+                    <div class="pt-3 border-t border-blue-200/70 flex flex-wrap items-center justify-between gap-3">
+                        <p class="text-xs text-slate-600">
+                            <i class="fa-solid fa-circle-info text-blue-600 mr-1"></i>
+                            Jika diminta guru untuk mengisi form secara langsung atau menyimpan bukti rekap:
+                        </p>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button onclick="copyRecapText()" class="px-3.5 py-2 rounded-lg bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-semibold transition flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-regular fa-copy"></i> Salin Rekap Nilai & Jawaban
+                            </button>
+                            <a id="btnOpenDirectGform" href="https://docs.google.com/forms/d/e/1FAIpQLScEYQ2PyqnYrA8Cuit7I1FTYyJA9T4uFwdtzjs8XSiWM3gPgA/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-up-right-from-square"></i> Buka Google Form Asli
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rekap Rincian Jawaban & Pembahasan -->
+                <div class="space-y-3">
+                    <h4 class="font-display font-bold text-base text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-book-open text-blue-600"></i> Pembahasan Lengkap & Evaluasi Jawaban
+                    </h4>
+                    <div id="detailedReviewContainer" class="space-y-3"></div>
+                </div>
+
+                <div class="pt-2 flex justify-center">
+                    <button onclick="retryQuiz()" class="px-5 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 text-sm font-semibold transition flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i> Kerjakan Ulang Latihan
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="max-w-5xl mx-auto px-4 sm:px-6 py-8 text-center text-xs text-slate-400 border-t border-slate-200 mt-12">
+        <p>Media Pembelajaran Interaktif Matematika Kelas 8 • Sistem Persamaan Linear Dua Variabel (Metode Substitusi)</p>
+    </footer>
+
+    <!-- TOAST NOTIFICATION (Pengganti alert()) -->
+    <div id="toastBox" class="fixed bottom-5 right-5 z-50 hidden max-w-sm bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl border border-slate-700 flex items-center gap-3 fade-in">
+        <i id="toastIcon" class="fa-solid fa-circle-info text-blue-400"></i>
+        <p id="toastMessage" class="text-xs sm:text-sm font-medium"></p>
+    </div>
+
+    <!-- MODAL PENGATURAN GURU (Konfigurasi Entry ID Google Form) -->
+    <div id="teacherModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center text-sm">
+                        <i class="fa-solid fa-sliders"></i>
+                    </span>
+                    <h3 class="font-display font-bold text-base text-slate-900">Pengaturan Integrasi Google Form (Guru)</h3>
+                </div>
+                <button onclick="toggleTeacherModal()" class="text-slate-400 hover:text-slate-700 p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-3.5 text-xs text-amber-900 space-y-1.5 leading-relaxed">
+                <p class="font-bold"><i class="fa-solid fa-lightbulb text-amber-600 mr-1"></i> Cara Agar Data Otomatis Masuk ke Spreadsheet GForm:</p>
+                <ol class="list-decimal list-inside space-y-1">
+                    <li>Buka Google Form Anda di mode edit, klik ikon titik tiga (⋮) di kanan atas &rarr; pilih <strong>"Dapatkan link yang sudah diisi" (Get pre-filled link)</strong>.</li>
+                    <li>Isi contoh jawaban pada kolom Nama, Kelas, No Absen, Skor, dan Detail Jawaban, lalu klik <strong>"Dapatkan link"</strong> &rarr; <strong>"Salin link"</strong>.</li>
+                    <li>Tempel link tersebut di Notepad. Anda akan melihat kode seperti <code class="bg-white px-1 rounded border">entry.123456789=Nama</code>.</li>
+                    <li>Masukkan kode <code class="bg-white px-1 rounded border">entry.xxxxxxx</code> masing-masing ke kolom di bawah ini lalu klik <strong>Simpan Pengaturan</strong>.</li>
+                </ol>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Entry ID: Nama Lengkap</label>
+                    <input type="text" id="cfgEntryNama" class="w-full px-3 py-2 rounded-lg border border-slate-300 font-mono" placeholder="entry.123456789">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Entry ID: Kelas</label>
+                    <input type="text" id="cfgEntryKelas" class="w-full px-3 py-2 rounded-lg border border-slate-300 font-mono" placeholder="entry.234567890">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Entry ID: Nomor Absen</label>
+                    <input type="text" id="cfgEntryAbsen" class="w-full px-3 py-2 rounded-lg border border-slate-300 font-mono" placeholder="entry.345678901">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Entry ID: Skor Akhir</label>
+                    <input type="text" id="cfgEntrySkor" class="w-full px-3 py-2 rounded-lg border border-slate-300 font-mono" placeholder="entry.456789012">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Entry ID: Rincian Jawaban Siswa</label>
+                    <input type="text" id="cfgEntryJawaban" class="w-full px-3 py-2 rounded-lg border border-slate-300 font-mono" placeholder="entry.567890123">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-200">
+                <button onclick="toggleTeacherModal()" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 text-xs font-semibold hover:bg-slate-50">Tutup</button>
+                <button onclick="saveTeacherConfig()" class="px-4 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700">Simpan Pengaturan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIKA APLIKASI -->
+    <script>
+        // ==========================================
+        // 1. DATA SIMULASI INTERAKTIF STEP-BY-STEP
+        // ==========================================
+        const simSteps = [
+            {
+                title: "Langkah 1: Membuat Pemisalan & Model Matematika",
+                desc: "Ubah informasi dari cerita menjadi variabel aljabar agar mudah dihitung.",
+                math: `Misalkan:<br>
+                       <strong>r</strong> = harga 1 buah roti<br>
+                       <strong>s</strong> = harga 1 kotak susu<br><br>
+                       • Belanja Andi (2 roti + 1 susu = 11.000) &rarr; <span class="text-blue-700 font-bold">2r + s = 11.000</span> ... (Persamaan 1)<br>
+                       • Belanja Bella (1 roti + 3 susu = 13.000) &rarr; <span class="text-emerald-700 font-bold">r + 3s = 13.000</span> ... (Persamaan 2)`,
+                tip: "Perhatikan! Pada Persamaan 1, koefisien s adalah 1. Pada Persamaan 2, koefisien r adalah 1. Keduanya sangat mudah diubah!"
+            },
+            {
+                title: "Langkah 2: Mengubah Salah Satu Persamaan",
+                desc: "Kita pilih Persamaan 2 karena variabel <strong>r</strong> berdiri sendiri (koefisien 1). Pindahkan <strong>3s</strong> ke ruas kanan.",
+                math: `Persamaan 2:<br>
+                       r + 3s = 13.000<br>
+                       <span class="bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-bold">r = 13.000 - 3s</span>`,
+                tip: "Tanda positif (+3s) berubah menjadi negatif (-3s) saat berpindah ruas."
+            },
+            {
+                title: "Langkah 3: Substitusi (Ganti) ke Persamaan 1",
+                desc: "Masukkan bentuk <strong>r = 13.000 - 3s</strong> ke dalam Persamaan 1 untuk menggantikan huruf <strong>r</strong>.",
+                math: `Persamaan 1: 2<span class="text-rose-600 font-bold">r</span> + s = 11.000<br>
+                       Ganti <span class="text-rose-600 font-bold">r</span> dengan <span class="bg-amber-100 px-1 rounded">(13.000 - 3s)</span>:<br><br>
+                       2<span class="bg-amber-100 font-bold">(13.000 - 3s)</span> + s = 11.000`,
+                tip: "Selalu gunakan tanda kurung saat mensubstitusi agar tidak salah mengalikan!"
+            },
+            {
+                title: "Langkah 4: Menyelesaikan Persamaan Satu Variabel",
+                desc: "Kalikan angka 2 ke dalam kurung, lalu gabungkan suku-suku yang sejenis untuk menemukan nilai <strong>s</strong>.",
+                math: `2(13.000) - 2(3s) + s = 11.000<br>
+                       26.000 - 6s + s = 11.000<br>
+                       26.000 - 5s = 11.000<br>
+                       -5s = 11.000 - 26.000<br>
+                       -5s = -15.000 &rarr; <strong>s = 3.000</strong>`,
+                tip: "Yeay! Kita sudah menemukan harga 1 kotak susu (s) = Rp3.000."
+            },
+            {
+                title: "Langkah 5: Substitusi Balik untuk Mencari Nilai Variabel Kedua",
+                desc: "Masukkan nilai <strong>s = 3.000</strong> ke persamaan <strong>r = 13.000 - 3s</strong> yang sudah kita buat di Langkah 2.",
+                math: `r = 13.000 - 3(<strong>3.000</strong>)<br>
+                       r = 13.000 - 9.000<br>
+                       <strong>r = 4.000</strong><br><br>
+                       <span class="text-emerald-700 font-bold">Kesimpulan: Harga 1 roti = Rp4.000 dan 1 susu kotak = Rp3.000.</span>`,
+                tip: "Mudah bukan? Sekarang kamu siap menerapkan langkah-langkah ini pada latihan soal di bawah!"
+            }
+        ];
+
+        let currentSimIndex = 0;
+
+        function renderSimStep() {
+            const step = simSteps[currentSimIndex];
+            const container = document.getElementById("simContentArea");
+            container.classList.remove("fade-in");
+            void container.offsetWidth; // trigger reflow
+            container.classList.add("fade-in");
+
+            container.innerHTML = `
+                <div class="space-y-3">
+                    <h5 class="font-display font-bold text-indigo-900 text-base">${step.title}</h5>
+                    <p class="text-xs sm:text-sm text-slate-600">${step.desc}</p>
+                    <div class="bg-white p-4 rounded-xl border border-indigo-100 text-xs sm:text-sm leading-relaxed text-slate-800 shadow-xs">
+                        ${step.math}
+                    </div>
+                    <div class="flex items-start gap-2 text-xs text-indigo-700 bg-indigo-50/70 p-2.5 rounded-lg">
+                        <i class="fa-solid fa-lightbulb text-amber-500 mt-0.5"></i>
+                        <span>${step.tip}</span>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById("simStepBadge").textContent = `Langkah ${currentSimIndex + 1} dari ${simSteps.length}`;
+            document.getElementById("simProgressBar").style.width = `${((currentSimIndex + 1) / simSteps.length) * 100}%`;
+            document.getElementById("btnSimPrev").disabled = currentSimIndex === 0;
+
+            const btnNext = document.getElementById("btnSimNext");
+            if (currentSimIndex === simSteps.length - 1) {
+                btnNext.innerHTML = `Selesai Simulasi <i class="fa-solid fa-check"></i>`;
+                btnNext.classList.replace("bg-indigo-600", "bg-emerald-600");
+                btnNext.classList.replace("hover:bg-indigo-700", "hover:bg-emerald-700");
+            } else {
+                btnNext.innerHTML = `Langkah Berikutnya <i class="fa-solid fa-arrow-right"></i>`;
+                btnNext.classList.replace("bg-emerald-600", "bg-indigo-600");
+                btnNext.classList.replace("hover:bg-emerald-700", "hover:bg-indigo-700");
+            }
+        }
+
+        function changeSimStep(delta) {
+            const nextIndex = currentSimIndex + delta;
+            if (nextIndex >= 0 && nextIndex < simSteps.length) {
+                currentSimIndex = nextIndex;
+                renderSimStep();
+            } else if (nextIndex === simSteps.length) {
+                document.getElementById("latihan").scrollIntoView({ behavior: "smooth" });
+            }
+        }
+
+        function resetSim() {
+            currentSimIndex = 0;
+            renderSimStep();
+        }
+
+        // ==========================================
+        // 2. DATA 9 SOAL PILIHAN GANDA BERJENJANG
+        // ==========================================
+        const quizContexts = [
+            {
+                contextId: 1,
+                title: "Konteks 1: Belanja di Koperasi Sekolah",
+                icon: "fa-book",
+                color: "blue",
+                story: "Di koperasi sekolah, Raka membeli <strong>2 buku tulis</strong> dan <strong>3 pensil</strong> dengan total harga <strong>Rp14.000,00</strong>. Di tempat dan harga yang sama, Sinta membeli <strong>1 buku tulis</strong> dan <strong>4 pensil</strong> dengan total harga <strong>Rp12.000,00</strong>.",
+                questions: [
+                    {
+                        id: 1,
+                        stage: "Tahap 1 • Pemodelan Matematika",
+                        question: "Jika <em>x</em> menyatakan harga sebuah buku tulis dan <em>y</em> menyatakan harga sebuah pensil, sistem persamaan linear dua variabel (SPLDV) yang tepat untuk memodelkan permasalahan di atas adalah...",
+                        options: [
+                            { key: "A", text: "2x + 3y = 12.000 dan x + 4y = 14.000" },
+                            { key: "B", text: "2x + 3y = 14.000 dan x + 4y = 12.000" },
+                            { key: "C", text: "3x + 2y = 14.000 dan 4x + y = 12.000" },
+                            { key: "D", text: "2x + y = 14.000 dan 3x + 4y = 12.000" }
+                        ],
+                        correct: "B",
+                        explanation: "Belanja Raka: 2 buku (2x) + 3 pensil (3y) = 14.000 &rarr; <strong>2x + 3y = 14.000</strong>. Belanja Sinta: 1 buku (x) + 4 pensil (4y) = 12.000 &rarr; <strong>x + 4y = 12.000</strong>."
+                    },
+                    {
+                        id: 2,
+                        stage: "Tahap 2 • Proses Substitusi",
+                        question: "Untuk menyelesaikan sistem persamaan di atas dengan metode substitusi, persamaan belanja Sinta diubah menjadi bentuk <em>x = 12.000 - 4y</em>. Bentuk persamaan baru yang diperoleh setelah mensubstitusikan <em>x</em> ke dalam persamaan belanja Raka adalah...",
+                        options: [
+                            { key: "A", text: "2(12.000 - 4y) + 3y = 14.000" },
+                            { key: "B", text: "2x + 3(12.000 - 4y) = 14.000" },
+                            { key: "C", text: "(12.000 - 4y) + 3y = 14.000" },
+                            { key: "D", text: "2(12.000 + 4y) + 3y = 14.000" }
+                        ],
+                        correct: "A",
+                        explanation: "Persamaan belanja Raka adalah 2x + 3y = 14.000. Ganti variabel <strong>x</strong> dengan <strong>(12.000 - 4y)</strong> sehingga menjadi <strong>2(12.000 - 4y) + 3y = 14.000</strong>."
+                    },
+                    {
+                        id: 3,
+                        stage: "Tahap 3 • Penyelesaian Akhir",
+                        question: "Berdasarkan proses perhitungan substitusi tersebut, harga sebuah buku tulis dan sebuah pensil secara berturut-turut adalah...",
+                        options: [
+                            { key: "A", text: "Rp2.000,00 dan Rp4.000,00" },
+                            { key: "B", text: "Rp3.000,00 dan Rp2.500,00" },
+                            { key: "C", text: "Rp4.000,00 dan Rp2.000,00" },
+                            { key: "D", text: "Rp5.000,00 dan Rp1.500,00" }
+                        ],
+                        correct: "C",
+                        explanation: "24.000 - 8y + 3y = 14.000 &rarr; -5y = -10.000 &rarr; <strong>y = 2.000</strong> (pensil). Lalu x = 12.000 - 4(2.000) = <strong>4.000</strong> (buku tulis)."
+                    }
+                ]
+            },
+            {
+                contextId: 2,
+                title: "Konteks 2: Jajanan di Kantin Sekolah",
+                icon: "fa-utensils",
+                color: "emerald",
+                story: "Di kantin sekolah, Doni membeli <strong>3 porsi batagor</strong> dan <strong>2 gelas es teh</strong> seharga <strong>Rp38.000,00</strong>. Pada saat yang sama, Maya membeli <strong>1 porsi batagor</strong> dan <strong>3 gelas es teh</strong> seharga <strong>Rp22.000,00</strong>.",
+                questions: [
+                    {
+                        id: 4,
+                        stage: "Tahap 1 • Pemodelan Matematika",
+                        question: "Misalkan <em>b</em> adalah harga 1 porsi batagor dan <em>e</em> adalah harga 1 gelas es teh. Model matematika yang sesuai dengan transaksi pembelian Doni dan Maya adalah...",
+                        options: [
+                            { key: "A", text: "3b + 2e = 38.000 dan b + 3e = 22.000" },
+                            { key: "B", text: "3b + 2e = 22.000 dan b + 3e = 38.000" },
+                            { key: "C", text: "2b + 3e = 38.000 dan 3b + e = 22.000" },
+                            { key: "D", text: "3b + e = 38.000 dan 2b + 3e = 22.000" }
+                        ],
+                        correct: "A",
+                        explanation: "Doni: 3 batagor + 2 es teh = 38.000 (<strong>3b + 2e = 38.000</strong>). Maya: 1 batagor + 3 es teh = 22.000 (<strong>b + 3e = 22.000</strong>)."
+                    },
+                    {
+                        id: 5,
+                        stage: "Tahap 2 • Proses Substitusi",
+                        question: "Dari persamaan transaksi Maya, variabel <em>b</em> dapat dinyatakan sebagai <em>b = 22.000 - 3e</em>. Jika bentuk tersebut disubstitusikan ke persamaan transaksi Doni, nilai variabel <em>e</em> (harga 1 gelas es teh) adalah...",
+                        options: [
+                            { key: "A", text: "Rp3.000,00" },
+                            { key: "B", text: "Rp4.000,00" },
+                            { key: "C", text: "Rp5.000,00" },
+                            { key: "D", text: "Rp6.000,00" }
+                        ],
+                        correct: "B",
+                        explanation: "3(22.000 - 3e) + 2e = 38.000 &rarr; 66.000 - 9e + 2e = 38.000 &rarr; -7e = -28.000 &rarr; <strong>e = 4.000</strong>."
+                    },
+                    {
+                        id: 6,
+                        stage: "Tahap 3 • Aplikasi & Penyelesaian Akhir",
+                        question: "Jika Budi datang ke kantin tersebut dan ingin membeli 2 porsi batagor serta 1 gelas es teh, total uang yang harus dibayarkan Budi adalah...",
+                        options: [
+                            { key: "A", text: "Rp20.000,00" },
+                            { key: "B", text: "Rp22.000,00" },
+                            { key: "C", text: "Rp24.000,00" },
+                            { key: "D", text: "Rp26.000,00" }
+                        ],
+                        correct: "C",
+                        explanation: "Harga 1 batagor: b = 22.000 - 3(4.000) = 10.000. Pesanan Budi: 2b + e = 2(10.000) + 4.000 = <strong>Rp24.000,00</strong>."
+                    }
+                ]
+            },
+            {
+                contextId: 3,
+                title: "Konteks 3: Ukuran Lapangan Olahraga",
+                icon: "fa-ruler-combined",
+                color: "amber",
+                story: "Keliling sebuah lapangan olahraga yang berbentuk persegi panjang adalah <strong>54 meter</strong>. Diketahui bahwa ukuran <strong>panjang lapangan tersebut 3 meter lebihnya dari ukuran lebarnya</strong>.",
+                questions: [
+                    {
+                        id: 7,
+                        stage: "Tahap 1 • Pemodelan Matematika",
+                        question: "Jika <em>p</em> menyatakan panjang lapangan dan <em>l</em> menyatakan lebar lapangan (dalam meter), model SPLDV yang tepat berdasarkan informasi keliling dan selisih ukuran lapangan adalah...",
+                        options: [
+                            { key: "A", text: "p + l = 54 dan p = l + 3" },
+                            { key: "B", text: "p + l = 27 dan p = l + 3" },
+                            { key: "C", text: "p + l = 27 dan l = p + 3" },
+                            { key: "D", text: "2p + l = 54 dan p = 3l" }
+                        ],
+                        correct: "B",
+                        explanation: "Keliling persegi panjang = 2(p + l) = 54, jika dibagi 2 menjadi <strong>p + l = 27</strong>. Panjang 3 m lebihnya dari lebar berarti <strong>p = l + 3</strong>."
+                    },
+                    {
+                        id: 8,
+                        stage: "Tahap 2 • Proses Substitusi",
+                        question: "Dengan mensubstitusikan persamaan kedua (<em>p = l + 3</em>) ke dalam persamaan pertama (<em>p + l = 27</em>), persamaan satu variabel yang terbentuk untuk mencari lebar lapangan adalah...",
+                        options: [
+                            { key: "A", text: "2l + 3 = 54" },
+                            { key: "B", text: "l + 3 = 27" },
+                            { key: "C", text: "2l + 3 = 27" },
+                            { key: "D", text: "2l - 3 = 27" }
+                        ],
+                        correct: "C",
+                        explanation: "Ganti p dengan (l + 3) pada p + l = 27 &rarr; (l + 3) + l = 27 &rarr; <strong>2l + 3 = 27</strong>."
+                    },
+                    {
+                        id: 9,
+                        stage: "Tahap 3 • Penyelesaian Akhir",
+                        question: "Setelah menemukan ukuran panjang dan lebar lapangan menggunakan metode substitusi, luas lapangan olahraga tersebut adalah...",
+                        options: [
+                            { key: "A", text: "144 m²" },
+                            { key: "B", text: "160 m²" },
+                            { key: "C", text: "180 m²" },
+                            { key: "D", text: "216 m²" }
+                        ],
+                        correct: "C",
+                        explanation: "Dari 2l + 3 = 27 &rarr; 2l = 24 &rarr; <strong>l = 12 m</strong>. Maka panjang p = 12 + 3 = <strong>15 m</strong>. Luas = p × l = 15 × 12 = <strong>180 m²</strong>."
+                    }
+                ]
+            }
+        ];
+
+        // State jawaban siswa { questionId: "A" | "B" | "C" | "D" }
+        let userAnswers = {};
+        let isSubmitted = false;
+        let lastRecapText = "";
+
+        function renderQuiz() {
+            const container = document.getElementById("quizContainer");
+            container.innerHTML = "";
+
+            quizContexts.forEach((ctx) => {
+                const badgeColors = {
+                    blue: "bg-blue-100 text-blue-800 border-blue-200",
+                    emerald: "bg-emerald-100 text-emerald-800 border-emerald-200",
+                    amber: "bg-amber-100 text-amber-800 border-amber-200"
+                };
+
+                const card = document.createElement("div");
+                card.className = "bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden";
+
+                let questionsHTML = "";
+                ctx.questions.forEach((q) => {
+                    let optionsHTML = "";
+                    q.options.forEach((opt) => {
+                        const isSelected = userAnswers[q.id] === opt.key;
+                        optionsHTML += `
+                            <label onclick="selectOption(${q.id}, '${opt.key}')" class="cursor-pointer flex items-center gap-3 p-3.5 rounded-xl border transition select-none ${
+                                isSelected
+                                    ? "bg-blue-50 border-blue-500 ring-1 ring-blue-500 text-blue-950 font-medium"
+                                    : "bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700"
+                            }">
+                                <span class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 ${
+                                    isSelected ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-600"
+                                }">${opt.key}</span>
+                                <span class="text-xs sm:text-sm">${opt.text}</span>
+                            </label>
+                        `;
+                    });
+
+                    questionsHTML += `
+                        <div id="qBox_${q.id}" class="p-5 sm:p-6 border-t border-slate-100 space-y-3.5">
+                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold ${badgeColors[ctx.color]}">
+                                    Soal No. ${q.id} • ${q.stage}
+                                </span>
+                                <span id="qStatus_${q.id}" class="text-xs font-medium text-slate-400">
+                                    ${userAnswers[q.id] ? '<i class="fa-solid fa-check text-emerald-600"></i> Terjawab' : 'Belum dijawab'}
+                                </span>
+                            </div>
+                            <p class="text-sm sm:text-base font-medium text-slate-900 leading-relaxed">${q.question}</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 pt-1">
+                                ${optionsHTML}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="bg-slate-50 p-5 sm:p-6 border-b border-slate-200 space-y-2.5">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center text-sm">
+                                <i class="fa-solid ${ctx.icon}"></i>
+                            </span>
+                            <h4 class="font-display font-bold text-base sm:text-lg text-slate-900">${ctx.title}</h4>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            ${ctx.story}
+                        </div>
+                    </div>
+                    <div>${questionsHTML}</div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            updateAnsweredCounter();
+        }
+
+        function selectOption(questionId, optionKey) {
+            userAnswers[questionId] = optionKey;
+            renderQuiz();
+        }
+
+        function updateAnsweredCounter() {
+            const count = Object.keys(userAnswers).length;
+            const counterEl = document.getElementById("answeredCounter");
+            counterEl.textContent = `${count} / 9 Soal`;
+            if (count === 9) {
+                counterEl.classList.replace("text-blue-600", "text-emerald-600");
+            }
+        }
+
+        // ==========================================
+        // 3. VALIDASI IDENTITAS & PENGIRIMAN GFORM
+        // ==========================================
+        function checkIdentity() {
+            const nama = document.getElementById("inputNama").value.trim();
+            const kelas = document.getElementById("inputKelas").value;
+            const absen = document.getElementById("inputAbsen").value.trim();
+            const badge = document.getElementById("statusIdentitasBadge");
+
+            if (nama && kelas && absen) {
+                badge.textContent = "Data Lengkap ✓";
+                badge.className = "px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800";
+                return true;
+            } else {
+                badge.textContent = "Belum Lengkap";
+                badge.className = "px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800";
+                return false;
+            }
+        }
+
+        function showToast(message, type = "info") {
+            const box = document.getElementById("toastBox");
+            const icon = document.getElementById("toastIcon");
+            const msg = document.getElementById("toastMessage");
+
+            msg.textContent = message;
+            if (type === "error") {
+                icon.className = "fa-solid fa-triangle-exclamation text-rose-400";
+            } else if (type === "success") {
+                icon.className = "fa-solid fa-circle-check text-emerald-400";
+            } else {
+                icon.className = "fa-solid fa-circle-info text-blue-400";
+            }
+
+            box.classList.remove("hidden");
+            clearTimeout(window.toastTimeout);
+            window.toastTimeout = setTimeout(() => {
+                box.classList.add("hidden");
+            }, 4500);
+        }
+
+        async function submitQuiz() {
+            // 1. Validasi Identitas
+            if (!checkIdentity()) {
+                showToast("Mohon lengkapi Nama Lengkap, Kelas, dan Nomor Absen terlebih dahulu!", "error");
+                document.getElementById("identitas").scrollIntoView({ behavior: "smooth" });
+                return;
+            }
+
+            // 2. Validasi Kelengkapan Jawaban
+            const answeredCount = Object.keys(userAnswers).length;
+            if (answeredCount < 9) {
+                showToast(`Masih ada ${9 - answeredCount} soal yang belum dijawab. Silakan lengkapi semua soal!`, "error");
+                return;
+            }
+
+            const nama = document.getElementById("inputNama").value.trim();
+            const kelas = document.getElementById("inputKelas").value;
+            const absen = document.getElementById("inputAbsen").value.trim();
+
+            // 3. Hitung Skor & Siapkan Pembahasan
+            let correctCount = 0;
+            let answerSummaryList = [];
+            let reviewHTML = "";
+
+            quizContexts.forEach((ctx) => {
+                ctx.questions.forEach((q) => {
+                    const studentAns = userAnswers[q.id];
+                    const isCorrect = studentAns === q.correct;
+                    if (isCorrect) correctCount++;
+
+                    answerSummaryList.push(`${q.id}:${studentAns}(${isCorrect ? 'B' : 'S'})`);
+
+                    reviewHTML += `
+                        <div class="p-4 rounded-xl border ${isCorrect ? 'bg-emerald-50/50 border-emerald-200' : 'bg-rose-50/50 border-rose-200'} space-y-2">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="font-bold text-xs sm:text-sm text-slate-900">Soal No. ${q.id} (${q.stage})</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                                    ${isCorrect ? '<i class="fa-solid fa-check mr-1"></i>Benar' : '<i class="fa-solid fa-xmark mr-1"></i>Kurang Tepat'}
+                                </span>
+                            </div>
+                            <p class="text-xs text-slate-700">
+                                Jawaban Kamu: <strong>${studentAns}</strong> • Kunci Jawaban: <strong class="text-emerald-700">${q.correct}</strong>
+                            </p>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200/80 text-xs text-slate-600 leading-relaxed">
+                                <strong class="text-slate-800">Pembahasan:</strong> ${q.explanation}
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+
+            const finalScore = Math.round((correctCount / 9) * 100);
+            const passedKKM = finalScore >= CONFIG.KKM;
+            const detailString = answerSummaryList.join(", ");
+
+            // Simpan rekap teks untuk fitur salin
+            lastRecapText = `HASIL LATIHAN SPLDV (METODE SUBSTITUSI)\nNama: ${nama}\nKelas: ${kelas}\nNo. Absen: ${absen}\nSkor Akhir: ${finalScore} (${correctCount}/9 Benar)\nRincian: ${detailString}`;
+
+            // 4. Tampilkan Hasil di UI
+            document.getElementById("resultStudentName").textContent = nama;
+            document.getElementById("resultStudentMeta").textContent = `Kelas ${kelas} • Nomor Absen ${absen}`;
+            document.getElementById("resultScoreText").textContent = finalScore;
+            document.getElementById("resultScoreText").className = `font-display text-4xl font-black ${passedKKM ? 'text-emerald-600' : 'text-amber-600'}`;
+            document.getElementById("resultCorrectCount").textContent = correctCount;
+            document.getElementById("resultWrongCount").textContent = 9 - correctCount;
+
+            const badgeStatus = document.getElementById("resultBadgeStatus");
+            if (passedKKM) {
+                badgeStatus.textContent = `Tuntas KKM (≥ ${CONFIG.KKM})`;
+                badgeStatus.className = "inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800";
+            } else {
+                badgeStatus.textContent = `Perlu Pengayaan (< ${CONFIG.KKM})`;
+                badgeStatus.className = "inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 text-amber-800";
+            }
+
+            document.getElementById("detailedReviewContainer").innerHTML = reviewHTML;
+            document.getElementById("resultSection").classList.remove("hidden");
+            document.getElementById("resultSection").scrollIntoView({ behavior: "smooth" });
+
+            // 5. Kirim Data ke Google Form (Silent POST via no-cors)
+            await sendToGoogleForm({
+                nama: nama,
+                kelas: kelas,
+                absen: absen,
+                skor: finalScore.toString(),
+                jawaban: detailString
+            });
+        }
+
+        async function sendToGoogleForm(payload) {
+            const statusBox = document.getElementById("gformStatusBox");
+            const statusIcon = document.getElementById("gformStatusIcon");
+            const statusTitle = document.getElementById("gformStatusTitle");
+            const statusDesc = document.getElementById("gformStatusDesc");
+
+            // Cek apakah entry ID sudah disesuaikan oleh guru atau masih default
+            const isDefaultEntry = CONFIG.ENTRY_IDS.nama === "entry.1000001";
+
+            try {
+                const formData = new URLSearchParams();
+                formData.append(CONFIG.ENTRY_IDS.nama, payload.nama);
+                formData.append(CONFIG.ENTRY_IDS.kelas, payload.kelas);
+                formData.append(CONFIG.ENTRY_IDS.absen, payload.absen);
+                formData.append(CONFIG.ENTRY_IDS.skor, payload.skor);
+                formData.append(CONFIG.ENTRY_IDS.jawaban, payload.jawaban);
+
+                await fetch(CONFIG.GFORM_ACTION_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: formData.toString()
+                });
+
+                // Update UI Status Berhasil
+                statusBox.className = "rounded-xl p-5 border bg-emerald-50/80 border-emerald-200 space-y-3";
+                statusIcon.className = "w-9 h-9 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5";
+                statusIcon.innerHTML = `<i class="fa-solid fa-check"></i>`;
+                statusTitle.textContent = "Data Telah Dikirim ke Server Google Form!";
+                statusDesc.innerHTML = isDefaultEntry
+                    ? `Permintaan pengiriman terkirim ke endpoint Google Form. <strong>Catatan:</strong> Pastikan guru telah menyetel kode <code>entry.xxxxxx</code> di menu Pengaturan (<i class="fa-solid fa-gear"></i>) atau klik tombol <strong>"Buka Google Form Asli"</strong> di bawah untuk konfirmasi pengisian langsung.`
+                    : `Rekap nilai atas nama <strong>${payload.nama}</strong> (${payload.kelas}) telah berhasil diteruskan ke Google Form guru.`;
+
+                showToast("Skor dihitung & data dikirim ke Google Form!", "success");
+            } catch (error) {
+                statusBox.className = "rounded-xl p-5 border bg-amber-50 border-amber-200 space-y-3";
+                statusIcon.className = "w-9 h-9 rounded-lg bg-amber-600 text-white flex items-center justify-center shrink-0 mt-0.5";
+                statusIcon.innerHTML = `<i class="fa-solid fa-exclamation"></i>`;
+                statusTitle.textContent = "Pengiriman Latar Belakang Terkendala Jaringan";
+                statusDesc.textContent = "Silakan gunakan tombol 'Salin Rekap Nilai & Jawaban' lalu klik 'Buka Google Form Asli' untuk menyimpan jawaban Anda secara langsung.";
+                showToast("Gunakan tombol Buka Google Form Asli untuk menyimpan jawaban.", "error");
+            }
+        }
+
+        function copyRecapText() {
+            if (!lastRecapText) return;
+            const tempTextArea = document.createElement("textarea");
+            tempTextArea.value = lastRecapText;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            try {
+                document.execCommand("copy");
+                showToast("Rekap nilai & jawaban berhasil disalin ke clipboard!", "success");
+            } catch (err) {
+                showToast("Gagal menyalin teks otomatis.", "error");
+            }
+            document.body.removeChild(tempTextArea);
+        }
+
+        function retryQuiz() {
+            userAnswers = {};
+            document.getElementById("resultSection").classList.add("hidden");
+            renderQuiz();
+            document.getElementById("latihan").scrollIntoView({ behavior: "smooth" });
+            showToast("Latihan direset. Silakan kerjakan kembali!", "info");
+        }
+
+        // ==========================================
+        // 4. PENGATURAN ENTRY ID GURU (LOCALSTORAGE)
+        // ==========================================
+        function loadSavedConfig() {
+            try {
+                const saved = localStorage.getItem("spldv_gform_entries");
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    CONFIG.ENTRY_IDS = { ...CONFIG.ENTRY_IDS, ...parsed };
+                }
+            } catch (e) {
+                console.warn("Tidak dapat memuat konfigurasi lokal:", e);
+            }
+            document.getElementById("cfgEntryNama").value = CONFIG.ENTRY_IDS.nama;
+            document.getElementById("cfgEntryKelas").value = CONFIG.ENTRY_IDS.kelas;
+            document.getElementById("cfgEntryAbsen").value = CONFIG.ENTRY_IDS.absen;
+            document.getElementById("cfgEntrySkor").value = CONFIG.ENTRY_IDS.skor;
+            document.getElementById("cfgEntryJawaban").value = CONFIG.ENTRY_IDS.jawaban;
+        }
+
+        function toggleTeacherModal() {
+            const modal = document.getElementById("teacherModal");
+            modal.classList.toggle("hidden");
+        }
+
+        function saveTeacherConfig() {
+            CONFIG.ENTRY_IDS.nama = document.getElementById("cfgEntryNama").value.trim() || CONFIG.ENTRY_IDS.nama;
+            CONFIG.ENTRY_IDS.kelas = document.getElementById("cfgEntryKelas").value.trim() || CONFIG.ENTRY_IDS.kelas;
+            CONFIG.ENTRY_IDS.absen = document.getElementById("cfgEntryAbsen").value.trim() || CONFIG.ENTRY_IDS.absen;
+            CONFIG.ENTRY_IDS.skor = document.getElementById("cfgEntrySkor").value.trim() || CONFIG.ENTRY_IDS.skor;
+            CONFIG.ENTRY_IDS.jawaban = document.getElementById("cfgEntryJawaban").value.trim() || CONFIG.ENTRY_IDS.jawaban;
+
+            try {
+                localStorage.setItem("spldv_gform_entries", JSON.stringify(CONFIG.ENTRY_IDS));
+            } catch (e) {}
+
+            toggleTeacherModal();
+            showToast("Pengaturan Entry ID Google Form berhasil disimpan!", "success");
+        }
+
+        // Inisialisasi Aplikasi saat Halaman Dimuat
+        window.onload = function () {
+            loadSavedConfig();
+            renderSimStep();
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>
